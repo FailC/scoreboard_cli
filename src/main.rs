@@ -104,7 +104,7 @@ fn main() -> std::io::Result<()>{
         .create(true)
         .open(&path) {
             Ok(file) => file,
-            Err(_) => panic!("Can't do shit"),
+            Err(e) => panic!("{}",e),
         };
 
 
