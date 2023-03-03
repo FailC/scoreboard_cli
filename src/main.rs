@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 #![allow(unused_imports)]
 
-use std::{io::{self, Read, Write, BufReader}, string};
+use std::{io::{self, Read, Write, BufReader}, string, vec};
 use std::path::Path;
 use std::fs::File;
 use std::io::BufRead;
@@ -88,6 +88,9 @@ fn print_list(list: &Vec<User>) {
     println!();
 }
 
+fn sort(list: &mut Vec<User>) {
+    list.sort_by(|a, b| b.score.cmp(&a.score));
+}
 
 
 fn main() -> std::io::Result<()>{
@@ -109,7 +112,7 @@ fn main() -> std::io::Result<()>{
     
         loop {
         print_menu();
-        println!("ready for input:");
+        println!("waiting for input:");
         let input: i32 = input();
         println!();
 
@@ -128,12 +131,13 @@ fn main() -> std::io::Result<()>{
 
             _ => println!("incorrect input"),
         } 
+        sort(&mut list);
         save_file(&list); // automatic save
     }
     Ok(()) 
 }
 
 
-fn sort() {
-    
-}
+
+ 
+
