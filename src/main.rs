@@ -19,6 +19,7 @@ impl User {
         let new_user = User { name, score: number };
         return new_user
     }
+
     fn print_list(list: &Vec<User>) {
         println!("printing list");
         for i in list{
@@ -39,6 +40,8 @@ fn print_menu() {
     println!("(1): print list");
     println!("(2): create user");
     println!("(3): set score//beta");
+    println!("(4): delete user");
+    println!("(5): delete all users");
     println!("(0): exit");
 }
 
@@ -93,6 +96,30 @@ fn sort(list: &mut Vec<User>) {
 }
 
 
+// delete user + delete all function
+
+fn delete_user(list: &mut Vec<User>){
+    // chose user and call drop 
+    //let temp = list.clone();
+    print_list(list);
+    println!("Delete: ");
+    let input = input();
+    let mut index = input as usize;
+    let lenght = list.len();
+    if index >= lenght {
+        index = lenght -1 ;
+    }
+    if index <= 0 { index = 0 }
+
+    list.remove(index);
+
+}
+
+fn delete_all_user(list: &mut Vec<User>) {
+    list.clear();
+}
+
+
 fn main() -> std::io::Result<()>{
     
     let mut list: Vec<User> = vec![];
@@ -107,8 +134,9 @@ fn main() -> std::io::Result<()>{
             Err(e) => panic!("{}",e),
         };
 
-
     read_file(file, &mut list);
+    sort(&mut list);
+    save_file(&list); 
     
         loop {
         print_menu();
@@ -128,6 +156,13 @@ fn main() -> std::io::Result<()>{
             }
 
             3 => println!("3:set score"),
+
+            4 => {
+                println!("4: delete user");
+                delete_user(&mut list);
+            },
+
+            5 => delete_all_user(&mut list),
 
             _ => println!("incorrect input"),
         } 
