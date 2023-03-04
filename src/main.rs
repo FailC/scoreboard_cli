@@ -29,9 +29,9 @@ impl User {
     fn create_user() -> User {
         println!("creating user");
         println!("Name: ");
-        let name = input_name();
+        let name = input_string();
         println!("Score: ");
-        let number = input();
+        let number = input_i32();
         User::new(name, number)
     }
 }
@@ -45,13 +45,13 @@ fn print_menu() {
     println!("(0): exit");
 }
 
-fn input() -> i32 {
+fn input_i32() -> i32 {
     let mut input: String = String::new();
     io::stdin().read_line(&mut input).unwrap();
     input.trim().parse::<i32>().unwrap_or(99)
 }
 
-fn input_name() -> String {
+fn input_string() -> String {
     let mut input: String = String::new();
     io::stdin().read_line(&mut input).unwrap();
     input.trim().to_string()
@@ -85,10 +85,15 @@ fn read_file(file: File, list: &mut Vec<User>){
 }
 
 fn print_list(list: &Vec<User>) {
-    for (index,item) in list.iter().enumerate(){
+    if !list.is_empty() {
+       for (index,item) in list.iter().enumerate(){
         println!("{}\t{}\t {}",index+1, item.name, item.score);
     }
-    println!();
+    println!(); 
+    }
+    else {
+        println!("List is empty!\n");
+    }
 }
 
 fn sort(list: &mut Vec<User>) {
@@ -103,15 +108,15 @@ fn delete_user(list: &mut Vec<User>){
     //let temp = list.clone();
     print_list(list);
     println!("Delete: ");
-    let input = input();
+    let input = input_i32();
     let mut index = input as usize;
     let lenght = list.len();
     if index >= lenght {
         index = lenght -1 ;
     }
     if index <= 0 { index = 0 }
-
-    list.remove(index);
+    dbg!(index);
+    list.remove(index-1);
 
 }
 
@@ -141,7 +146,7 @@ fn main() -> std::io::Result<()>{
         loop {
         print_menu();
         println!("waiting for input:");
-        let input: i32 = input();
+        let input: i32 = input_i32();
         println!();
 
         match input {
@@ -162,7 +167,10 @@ fn main() -> std::io::Result<()>{
                 delete_user(&mut list);
             },
 
-            5 => delete_all_user(&mut list),
+            5 => {
+                println!("Deleting list..");
+                delete_all_user(&mut list);
+            },
 
             _ => println!("incorrect input"),
         } 
@@ -171,8 +179,3 @@ fn main() -> std::io::Result<()>{
     }
     Ok(()) 
 }
-
-
-
- 
-
