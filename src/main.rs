@@ -1,12 +1,13 @@
 #![allow(dead_code)]
 #![allow(unused_imports)]
 
-use std::{io::{self, Read, Write, BufReader}, string, vec};
+use std::{io::{self, Read, Write, BufReader, stdout}, string, vec, process::exit};
 use std::path::Path;
 use std::fs::File;
 use std::io::BufRead;
 use std::io::prelude::*;
 use std::fs::OpenOptions;
+use std::io::BufWriter;
 
 #[derive(Debug)]
 struct User {
@@ -83,26 +84,26 @@ fn read_file(file: File, list: &mut Vec<User>){
         }
     }
 }
-
+// test
 fn print_list(list: &Vec<User>) {
-    if !list.is_empty() {
-       for (index,item) in list.iter().enumerate(){
-        println!("{}\t{}\t {}",index+1, item.name, item.score);
-    }
-    println!(); 
-    }
-    else {
+    if list.is_empty() {
         println!("List is empty!\n");
+        return;
     }
+    let stdout = stdout();
+    let mut writer = BufWriter::new(stdout.lock());
+
+    for (index,item) in list.iter().enumerate(){
+        writeln!(writer,"{}\t{}\t {}",index+1, item.name, item.score).unwrap();
+    }
+    writer.flush().unwrap();
+    //println!(); ??
 }
 
 fn sort(list: &mut Vec<User>) {
     list.sort_by(|a, b| b.score.cmp(&a.score));
 }
-
-
-// delete user + delete all function
-
+// python print huge numbers of users!!! 
 fn delete_user(list: &mut Vec<User>){
     // chose user and call drop 
     //let temp = list.clone();
@@ -112,16 +113,15 @@ fn delete_user(list: &mut Vec<User>){
     let mut index = input as usize;
     let lenght = list.len();
     if index >= lenght {
-        index = lenght -1 ;
+        index = lenght;
     }
-    if index <= 0 { index = 0 }
-    dbg!(index);
+    if index <= 0 { index = 1 }
     list.remove(index-1);
-
 }
 
 fn delete_all_user(list: &mut Vec<User>) {
-    list.clear();
+    if list.is_empty() { println!("List is empty"); }
+    else  { list.clear(); }
 }
 
 
