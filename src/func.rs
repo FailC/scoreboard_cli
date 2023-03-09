@@ -21,8 +21,10 @@ pub mod fail{
             println!("creating user");
             println!("Name: ");
             let name = input_string();
-            println!("Score: ");
+            print!("Score: ");
+            stdout().flush().unwrap();
             let number = input_i32();
+            println!();
             User::new(name, number)
         }
     }
@@ -49,7 +51,7 @@ pub mod fail{
     }
 
     pub fn read_file(file: File, list: &mut Vec<User>) -> u64{
-        println!("Reading from File:");
+        println!("Reading from File..");
         let reader = BufReader::new(&file);
         // Read the lines from the file and parse them into User structs.
         for line in reader.lines() {
@@ -67,7 +69,7 @@ pub mod fail{
     
     pub fn save_file(list: &Vec<User>){
         let mut new_file = BufWriter::new(File::create("user.txt").unwrap());
-        //let mut new_file = File::create("user.txt").unwrap(); // try this one
+        //let mut new_file = File::create("user.txt").unwrap(); // try this one??
 
         let mut buffer = Vec::new();
         for i in list {
@@ -94,16 +96,16 @@ pub mod fail{
         writer.flush().unwrap();
         println!();
         let end = Instant::now();
-        let time = end - start;
-        dbg!(time);
+        let _time = end - start;
+        //dbg!(time);
     }
 
     pub fn sort(list: &mut Vec<User>) {
         let start = Instant::now();
         list.sort_by(|a, b| b.score.cmp(&a.score));
         let end = Instant::now();
-        let time = end - start;
-        dbg!(time);
+        let _time = end - start;
+        //dbg!(time);
     }
 
 
@@ -113,7 +115,7 @@ pub mod fail{
         stdout().flush().unwrap();
         let index: usize = {
             let mut index = input_i32() as usize;
-            dbg!(index);
+            //dbg!(index);
             if list.len() < index {
                 index = list.len();
             }
@@ -140,6 +142,7 @@ pub mod fail{
         }
         if index <= 0 { index = 1 }
         list.remove(index-1);
+        println!();
     }
 
     pub fn delete_all_user(list: &mut Vec<User>) {

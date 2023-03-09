@@ -24,8 +24,8 @@ fn main() -> std::io::Result<()>{
     sort(&mut list);
     println!("Writing to file..");
     save_file(&list); 
-    println!("\nDone!");
-    println!("Total users: {}", count);
+    println!("Done!");
+    println!("Total users: {}\n", count);
     
     loop {
     print_menu();
