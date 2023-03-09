@@ -57,21 +57,7 @@ fn input_string() -> String {
     io::stdin().read_line(&mut input).unwrap();
     input.trim().to_string()
 }
-/*
-fn save_file(list: &Vec<User>){
-    //let mut new_file = File::create("user.txt").expect("Couldnt create new file in function");
-    let mut new_file = File::create("user.txt").unwrap(); // try this one
 
-    for i in list {
-        let temp = &i.name;
-        let s = &i.score;
-        new_file.write_all(temp.as_bytes()).unwrap();
-        new_file.write_all(b" ").unwrap();
-        new_file.write_all(&s.to_string().as_bytes()).unwrap();
-        new_file.write_all(b"\n").unwrap();
-    }
-}
- */
 fn save_file(list: &Vec<User>){
     let mut new_file = BufWriter::new(File::create("user.txt").unwrap());
     //let mut new_file = File::create("user.txt").unwrap(); // try this one
