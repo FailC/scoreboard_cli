@@ -57,7 +57,7 @@ fn input_string() -> String {
     io::stdin().read_line(&mut input).unwrap();
     input.trim().to_string()
 }
-
+/*
 fn save_file(list: &Vec<User>){
     //let mut new_file = File::create("user.txt").expect("Couldnt create new file in function");
     let mut new_file = File::create("user.txt").unwrap(); // try this one
@@ -71,6 +71,22 @@ fn save_file(list: &Vec<User>){
         new_file.write_all(b"\n").unwrap();
     }
 }
+ */
+fn save_file(list: &Vec<User>){
+    let mut new_file = BufWriter::new(File::create("user.txt").unwrap());
+    //let mut new_file = File::create("user.txt").unwrap(); // try this one
+
+    let mut buffer = Vec::new();
+    for i in list {
+        buffer.extend_from_slice(i.name.as_bytes());
+        buffer.extend_from_slice(b" ");
+        buffer.extend_from_slice(i.score.to_string().as_bytes());
+        buffer.extend_from_slice(b"\n");
+    }
+    new_file.write_all(&buffer).unwrap();
+}
+
+
 
 fn read_file(file: File, list: &mut Vec<User>){
     let reader = BufReader::new(&file);
@@ -84,8 +100,9 @@ fn read_file(file: File, list: &mut Vec<User>){
         }
     }
 }
-// test
+
 fn print_list(list: &Vec<User>) {
+    // fast printing 
     if list.is_empty() {
         println!("List is empty!\n");
         return;
@@ -97,7 +114,6 @@ fn print_list(list: &Vec<User>) {
         writeln!(writer,"{}\t{}\t {}",index+1, item.name, item.score).unwrap();
     }
     writer.flush().unwrap();
-    //println!(); ??
 }
 
 fn sort(list: &mut Vec<User>) {
@@ -120,7 +136,7 @@ fn delete_user(list: &mut Vec<User>){
 }
 
 fn delete_all_user(list: &mut Vec<User>) {
-    if list.is_empty() { println!("List is empty"); }
+    if list.is_empty() { println!("List is empty\n"); }
     else  { list.clear(); }
 }
 
@@ -140,8 +156,12 @@ fn main() -> std::io::Result<()>{
         };
 
     read_file(file, &mut list);
+    println!("Sorting..");
     sort(&mut list);
+    println!("Done!");
+    println!("writing to file..");
     save_file(&list); 
+    println!("Done!");
     
         loop {
         print_menu();
@@ -153,8 +173,8 @@ fn main() -> std::io::Result<()>{
             0 => break,
 
             1 => {
-                //User::print_list(&list);
                 print_list(&list);
+                println!();
             }
             2 => {
                 list.push(User::create_user());
@@ -168,7 +188,7 @@ fn main() -> std::io::Result<()>{
             },
 
             5 => {
-                println!("Deleting list..");
+                println!("Deleting list..\n");
                 delete_all_user(&mut list);
             },
 
