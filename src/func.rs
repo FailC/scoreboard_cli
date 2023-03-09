@@ -18,8 +18,11 @@ pub mod fail{
         }
 
         pub fn create_user() -> User {
+            // using flush to write to terminal so that questions are in the same line, 
+            // maybe there is a better way?
             println!("creating user");
-            println!("Name: ");
+            print!("Name: ");
+            stdout().flush().unwrap();
             let name = input_string();
             print!("Score: ");
             stdout().flush().unwrap();
@@ -68,9 +71,8 @@ pub mod fail{
     }
     
     pub fn save_file(list: &Vec<User>){
+        // creates a new file everytime i guess, pass original file to the function 
         let mut new_file = BufWriter::new(File::create("user.txt").unwrap());
-        //let mut new_file = File::create("user.txt").unwrap(); // try this one??
-
         let mut buffer = Vec::new();
         for i in list {
             buffer.extend_from_slice(i.name.as_bytes());
@@ -121,7 +123,6 @@ pub mod fail{
             }
             index
         };
-
         print!("Score: ");
         stdout().flush().unwrap();
         let score = input_i32();
