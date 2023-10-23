@@ -7,17 +7,3 @@ and sorts them according to the score
 any changes are saved immediately to the txt file, nothing special 
 
 feel free to add your own functionality! 
-
-
-Example: 
-
-1       Rustacean2       53
-2       Rustacean1       36
-
-1): print list
-2): create user
-3): set new score
-4): delete user
-5): delete all users
-0): exit
-Waiting for input:
