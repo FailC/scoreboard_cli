@@ -19,11 +19,11 @@ fn main() -> std::io::Result<()>{
             Err(e) => panic!("{}",e),
         };
 
-    let count = read_file(file, &mut list);
+    let count = file_read(file, &mut list);
     println!("Sorting users..");
-    sort(&mut list);
+    list_sort(&mut list);
     println!("Writing to file..");
-    save_file(&list); 
+    file_save(&list); 
     println!("Done!");
     println!("Total users: {}\n", count);
     
@@ -39,33 +39,32 @@ fn main() -> std::io::Result<()>{
         0 => break,
 
         1 => {
-            //User::print_list(&list);
-            print_list(&list);
+            list_print(&list);
         }
         2 => {
-            list.push(User::create_user());
-            sort(&mut list);
-            save_file(&list); 
+            list.push(User::user_create());
+            list_sort(&mut list);
+            file_save(&list); 
         }
 
         3 => {
             println!("set score");
             set_score(&mut list);
-            sort(&mut list);
-            save_file(&list); 
+            list_sort(&mut list);
+            file_save(&list); 
             }
 
 
         4 => {
             println!("delete user");
-            delete_user(&mut list);
-            sort(&mut list);
-            save_file(&list); 
+            user_delete(&mut list);
+            list_sort(&mut list);
+            file_save(&list); 
         },
 
         5 => {
             println!("deleting list..");
-            delete_all_user(&mut list);
+            user_delete_all(&mut list);
         },
 
         _ => println!("incorrect input"),

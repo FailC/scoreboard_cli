@@ -1,5 +1,5 @@
 
-pub mod fail{
+pub mod fail {
     use std::{io::{self, Write, BufReader, stdout}, time::Instant};
     use std::fs::File;
     use std::io::BufRead;
@@ -17,7 +17,7 @@ pub mod fail{
             return new_user
         }
 
-        pub fn create_user() -> User {
+        pub fn user_create() -> User {
             // using flush to write to terminal so that questions are in the same line, 
             // maybe there is a better way?
             println!("creating user");
@@ -32,10 +32,15 @@ pub mod fail{
         }
     }
 
+
+    // maybe create new functions with, 
+    // (3) add one // like score++ 
+    // or do a function with create more users with default score = 0 
+
     pub fn print_menu() {
         println!("1): print list");
         println!("2): create user");
-        println!("3): set new score");
+        println!("3): set new score\n");
         println!("4): delete user");
         println!("5): delete all users");
         println!("0): exit");
@@ -53,7 +58,7 @@ pub mod fail{
         input.trim().to_string()
     }
 
-    pub fn read_file(file: File, list: &mut Vec<User>) -> u64{
+    pub fn file_read(file: File, list: &mut Vec<User>) -> u64{
         println!("Reading from File..");
         let reader = BufReader::new(&file);
         // Read the lines from the file and parse them into User structs.
@@ -70,7 +75,7 @@ pub mod fail{
         total_lines as u64
     }
     
-    pub fn save_file(list: &Vec<User>){
+    pub fn file_save(list: &Vec<User>){
         // creates a new file everytime i guess, pass original file to the function 
         let mut new_file = BufWriter::new(File::create("user.txt").unwrap());
         let mut buffer = Vec::new();
@@ -83,7 +88,7 @@ pub mod fail{
         new_file.write_all(&buffer).unwrap();
     }
 
-    pub fn print_list(list: &Vec<User>) {
+    pub fn list_print(list: &Vec<User>) {
         if list.is_empty() {
             println!("List is empty!\n");
             return;
@@ -102,7 +107,7 @@ pub mod fail{
         //dbg!(time);
     }
 
-    pub fn sort(list: &mut Vec<User>) {
+    pub fn list_sort(list: &mut Vec<User>) {
         let start = Instant::now();
         list.sort_by(|a, b| b.score.cmp(&a.score));
         let end = Instant::now();
@@ -112,17 +117,21 @@ pub mod fail{
 
 
     pub fn set_score(list: &mut Vec<User>) {
-        print_list(&list);
+        list_print(&list);
         print!("User: ");
         stdout().flush().unwrap();
+        // loop
         let index: usize = {
             let mut index = input_i32() as usize;
             //dbg!(index);
+            // sets the out of index to the largest, maybe print a msg to input different number? 
             if list.len() < index {
                 index = list.len();
             }
             index
         };
+
+        // loop
         print!("Score: ");
         stdout().flush().unwrap();
         let score = input_i32();
@@ -131,8 +140,8 @@ pub mod fail{
     }
 
 
-    pub fn delete_user(list: &mut Vec<User>){
-        print_list(list);
+    pub fn user_delete(list: &mut Vec<User>){
+        list_print(list);
         print!("Delete: ");
         io::stdout().flush().unwrap();
         let input = input_i32();
@@ -146,7 +155,7 @@ pub mod fail{
         println!();
     }
 
-    pub fn delete_all_user(list: &mut Vec<User>) {
+    pub fn user_delete_all(list: &mut Vec<User>) {
         if list.is_empty() { 
         println!("List is empty"); 
         return;
