@@ -37,6 +37,8 @@ pub mod fail {
     // (3) add one // like score++ 
     // or do a function with create more users with default score = 0 
 
+    // fork this app? 
+
     pub fn print_menu() {
         println!("1): print list");
         println!("2): create user");
@@ -75,7 +77,7 @@ pub mod fail {
         total_lines as u64
     }
     
-    pub fn file_save(list: &Vec<User>){
+    pub fn file_save(list: &Vec<User>) {
         // creates a new file everytime i guess, pass original file to the function 
         let mut new_file = BufWriter::new(File::create("user.txt").unwrap());
         let mut buffer = Vec::new();
