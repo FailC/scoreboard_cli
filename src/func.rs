@@ -18,8 +18,6 @@ pub mod fail {
         }
 
         pub fn user_create() -> User {
-            // using flush to write to terminal so that questions are in the same line, 
-            // maybe there is a better way?
             println!("creating user");
             print!("Name: ");
             stdout().flush().unwrap();
@@ -40,7 +38,7 @@ pub mod fail {
     pub fn print_menu() {
         println!("1): print list");
         println!("2): create user");
-        println!("3): set new score\n");
+        println!("3): set new score");
         println!("4): delete user");
         println!("5): delete all users");
         println!("0): exit");
@@ -117,6 +115,10 @@ pub mod fail {
 
 
     pub fn set_score(list: &mut Vec<User>) {
+        if list.is_empty() {
+            println!("List is empty");
+            return; 
+        }
         list_print(&list);
         print!("User: ");
         stdout().flush().unwrap();
@@ -126,7 +128,10 @@ pub mod fail {
             //dbg!(index);
             // sets the out of index to the largest, maybe print a msg to input different number? 
             if list.len() < index {
-                index = list.len();
+                // index = list.len();
+                // or just print an "error"
+                println!("Index out of bounds!\n");   
+                return; 
             }
             index
         };
