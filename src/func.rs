@@ -124,7 +124,7 @@ pub mod fail {
         stdout().flush().unwrap();
         // loop
         let index: usize = {
-            let mut index = input_i32() as usize;
+            let index = input_i32() as usize;
             //dbg!(index);
             // sets the out of index to the largest, maybe print a msg to input different number? 
             if list.len() < index {
